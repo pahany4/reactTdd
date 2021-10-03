@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Appointment, AppointmentsDayView} from "../Appointment";
+import ReactTestUtils from 'react-dom/test-utils'
 
 /** Контейнер <div> */
 let container;
@@ -48,11 +49,11 @@ describe('AppointmentsDayView', () => {
     const appointments = [
         {
             startsAt: today.setHours(12, 0),
-            customer: { firstName: 'Ashley' }
+            customer: {firstName: 'Ashley'}
         },
         {
             startsAt: today.setHours(13, 0),
-            customer: { firstName: 'Jordan' }
+            customer: {firstName: 'Jordan'}
         }
     ];
 
@@ -103,9 +104,28 @@ describe('AppointmentsDayView', () => {
 
     /** по умолчанию выбирает первую встречу */
     it('selects the first appointment by default', () => {
-        render(<AppointmentsDayView appointments={appointments} />);
+        render(<AppointmentsDayView appointments={appointments}/>);
         expect(container.textContent).toMatch('Ashley');
     });
 
+    /** имеет элемент кнопки в каждом li */
+    it('has a button element in each li', () => {
+        render(<AppointmentsDayView
+            appointments={appointments}/>);
+        expect(
+            container.querySelectorAll('li > button')
+        ).toHaveLength(2);
+        expect(
+            container.querySelectorAll('li > button')[0].type
+        ).toEqual('button');
+    });
+
+    /** отображает другую встречу при выборе */
+    it('renders another appointment when selected', () => {
+        render(<AppointmentsDayView appointments={appointments}/>);
+        const button = container.querySelectorAll('button')[1];
+        ReactTestUtils.Simulate.click(button);
+        expect(container.textContent).toMatch('Jordan');
+    });
 
 });

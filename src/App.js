@@ -1,10 +1,23 @@
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
+import {AppointmentsDayView} from "./Appointment";
 
 function App() {
+    const today = new Date();
+    const customer = {firstName: 'Ashley'}
+    const appointments = [
+        {
+            startsAt: today.setHours(12, 0),
+            customer: {firstName: 'Ashley'}
+        },
+        {
+            startsAt: today.setHours(13, 0),
+            customer: {firstName: 'Jordan'}
+        }
+    ];
   return (
     <div className="App">
-      <header className="App-header">
+  {/*    <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -17,7 +30,8 @@ function App() {
         >
           Learn React
         </a>
-      </header>
+      </header>*/}
+      <AppointmentsDayView customer={customer} appointments={appointments}/>
     </div>
   );
 }
